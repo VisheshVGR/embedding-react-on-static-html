@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #eee;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Yo</h1>
+    <div id="root"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        axios.get("http://localhost:1234/initialize")
+            .then((response) => {
+                const jsFilies = response.data.jsFiles;
+                const cssFiles = response.data.cssFiles;
+
+                elements = jsFilies.map(eachFileName => {
+                    var script = document.createElement('script');
+                    script.src = `http://localhost:1234/static/js/${eachFileName}`;
+                    document.head.appendChild(script);
+                    return script
+                })
+
+                elements = cssFiles.map(eachFileName => {
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = `http://localhost:1234/static/css/${eachFileName}`;
+                    document.head.appendChild(link);
+                    return link
+                })
+            })
+    </script>
+</body>
+
+</html>
